@@ -47,12 +47,10 @@
       </div>
 
       <!-- Question card -->
-      <div class="card border-0 shadow-sm p-4 mb-4">
-        <h5 class="text-muted small text-uppercase fw-bold mb-1">Member Issue Code</h5>
-        <div class="font-monospace display-6 fw-bold text-dark mb-0">
-          {{ currentQuestion.key }}
-        </div>
-        <p class="text-muted small mt-2 mb-0">What is the correct staff response to this issue?</p>
+      <div class="quiz-question-card mb-4">
+        <div class="quiz-question-label">Member Issue Code</div>
+        <div class="quiz-question-key">{{ currentQuestion.key }}</div>
+        <p class="quiz-question-hint">What is the correct staff response to this issue?</p>
       </div>
 
       <!-- Options -->
@@ -189,3 +187,37 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.quiz-question-card {
+  background: #161616;
+  border: 1px solid #252525;
+  border-left: 4px solid #39ff6a;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.quiz-question-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.quiz-question-key {
+  font-family: 'Courier New', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.quiz-question-hint {
+  font-size: 0.82rem;
+  color: #e01414;
+  margin: 0;
+}
+</style>

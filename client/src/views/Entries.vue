@@ -139,13 +139,13 @@ export default {
   methods: {
     badgeClass(category) {
       const map = {
-        Membership: 'bg-primary',
-        Billing: 'bg-success',
-        Bookings: 'bg-info',
-        Facilities: 'bg-warning',
-        'Health & Safety': 'bg-danger',
+        Membership: 'bg-primary text-white',
+        Billing: 'bg-success text-white',
+        Bookings: 'bg-info text-dark',
+        Facilities: 'bg-warning text-dark',
+        'Health & Safety': 'bg-danger text-white',
       };
-      return map[category] || 'bg-secondary';
+      return map[category] || 'bg-secondary text-white';
     },
     truncate(text, length) {
       return text.length > length ? text.substring(0, length) + '...' : text;
@@ -192,7 +192,7 @@ export default {
 }
 
 .page-subtitle {
-  color: #666;
+  color: #ffffff;
   margin: 0;
   font-size: 1.05rem;
 }
@@ -209,7 +209,7 @@ export default {
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: #666;
+  color: #ffffff;
   pointer-events: none;
 }
 
@@ -220,7 +220,7 @@ export default {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  color: #e0e0e0;
+  color: #f7f7f7;
   font-size: 15px;
   transition: all 0.2s ease;
 }
@@ -233,7 +233,7 @@ export default {
 }
 
 .search-input::placeholder {
-  color: #555;
+  color: #f9f9f9;
 }
 
 /* ── Loading ── */
@@ -299,10 +299,17 @@ export default {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.modern-table {
+  --bs-table-bg: #2a2a2a;
+  --bs-table-color: #f0f0f0;
+  --bs-table-border-color: rgba(255, 255, 255, 0.1);
+}
+
 .modern-table thead th {
   font-weight: 700 !important;
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
+  color: #ffffff;
 }
 
 .entry-row {
@@ -326,7 +333,7 @@ export default {
 }
 
 .entry-value {
-  color: #999;
+  color: #c5c5c5;
   font-size: 14px;
   line-height: 1.6;
 }
@@ -379,6 +386,7 @@ export default {
 
 .entry-card-value {
   color: #999;
+  color: #c5c5c5;
   font-size: 14px;
   line-height: 1.6;
   margin-bottom: 1rem;

@@ -2,7 +2,7 @@
   <form @submit.prevent="handleSubmit" novalidate>
     <!-- Key -->
     <div class="mb-3">
-      <label class="form-label fw-semibold" for="key">Response Key</label>
+      <label class="form-label fw-semibold text-white" for="key">Response Key</label>
       <input
         id="key"
         v-model.trim="form.key"
@@ -16,7 +16,7 @@
 
     <!-- Value -->
     <div class="mb-3">
-      <label class="form-label fw-semibold" for="value">Standard Response</label>
+      <label class="form-label fw-semibold text-white" for="value">Standard Response</label>
       <textarea
         id="value"
         v-model.trim="form.value"
@@ -29,7 +29,7 @@
 
     <!-- Category -->
     <div class="mb-4">
-      <label class="form-label fw-semibold" for="category">Category</label>
+      <label class="form-label fw-semibold text-white" for="category">Category</label>
       <input
         id="category"
         v-model.trim="form.category"

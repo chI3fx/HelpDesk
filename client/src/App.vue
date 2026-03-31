@@ -50,7 +50,7 @@
     </main>
 
     <footer class="toji-footer">
-      TojiLifts Helpdesk Portal &copy; {{ new Date().getFullYear() }}
+      TojiLifts Helpdesk Portal by Keith Karung'o 001511425 &copy; {{ new Date().getFullYear() }}
     </footer>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
-  <div style="max-width:600px">
-    <h2 class="fw-bold mb-4">Add New Entry</h2>
-    <div class="card border-0 shadow-sm p-4">
+  <div style="max-width:600px" class="text-white">
+    <h2 class="fw-bold mb-4 text-white">Add New Entry</h2>
+    <div class="card border-0 shadow-sm p-4 bg-dark text-white">
       <EntryForm
         ref="form"
         submit-label="Create Entry"

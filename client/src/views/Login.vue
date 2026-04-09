@@ -1,6 +1,6 @@
 <template>
   <div style="max-width: 520px; margin: 0 auto;">
-    <h2 class="fw-bold mb-4">Login</h2>
+      <h2 class="fw-bold mb-4">User Login</h2>
 
     <div class="card border-0 shadow-sm p-4">
       <form @submit.prevent="submit" novalidate>
@@ -35,7 +35,7 @@
           Sign In
         </button>
 
-        <p class="mt-3 mb-0 text-muted">
+        <p class="mt-3 mb-0 auth-helper">
           No account?
           <router-link to="/signup" class="text-decoration-none">Create one</router-link>
         </p>
@@ -71,7 +71,8 @@ export default {
         setAuth(token, user);
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         window.dispatchEvent(new Event('auth-changed'));
-        const redirect = this.$route.query.redirect || '/staff';
+        const roleHome = user?.role === 'staff' ? '/staff' : '/';
+        const redirect = this.$route.query.redirect || roleHome;
         this.$router.push(redirect);
       } catch (err) {
         this.error = err?.response?.data?.error || 'Login failed. Please try again.';
@@ -82,3 +83,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.auth-helper {
+  color: #d8d8d8;
+}
+
+.auth-helper a {
+  color: #7fd8ff;
+}
+</style>

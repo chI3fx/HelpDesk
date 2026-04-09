@@ -2,7 +2,7 @@
   <div>
     <div v-if="loading" class="text-center py-5">
       <div class="toji-spinner"></div>
-      <p class="mt-3" style="color:#555;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;">
+      <p class="mt-3" style="color:#c0c0c0;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;">
         Loading stats…
       </p>
     </div>
@@ -43,7 +43,7 @@
               {{ latestEntry.category }}
             </span>
           </template>
-          <p v-else style="color:#555;font-size:0.85rem;">No entries yet.</p>
+          <p v-else style="color:#c0c0c0;font-size:0.85rem;">No entries yet.</p>
         </div>
 
       </div>
@@ -132,7 +132,7 @@ export default {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #555;
+  color: #c5c5c5;
   margin-bottom: 0.6rem;
 }
 
@@ -146,7 +146,7 @@ export default {
 
 .stat-card__sub {
   font-size: 0.75rem;
-  color: #444;
+  color: #c0c0c0;
   margin-top: 0.2rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -164,7 +164,7 @@ export default {
 
 .recent-value {
   font-size: 0.82rem;
-  color: #666;
+  color: #cfcfcf;
   margin-bottom: 0.75rem;
   line-height: 1.5;
 }

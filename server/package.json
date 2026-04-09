@@ -4,6 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "seed:entries": "node seed.js",
+    "seed:users": "node seed-users.js",
+    "seed:complaints": "node seed-complaints.js",
+    "seed:all": "npm run seed:users && npm run seed:entries && npm run seed:complaints",
+    "cleanup:legacy": "node cleanup-legacy.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

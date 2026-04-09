@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Entry = require('./models/Entry');
+const User = require('./models/User');
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost/HelpDesk';
 
@@ -87,7 +88,19 @@ async function seed() {
   await Entry.deleteMany({});
   console.log('Cleared existing entries');
 
-  await Entry.insertMany(seedData);
+  const users = await User.find({}, '_id').lean();
+  if (!users.length) {
+    throw new Error('No users found. Run `npm run seed:users` first.');
+  }
+
+  const docs = seedData.map((entry) => ({
+    ...entry,
+    source: 'seed',
+    status: 'resolved',
+    submittedBy: users[Math.floor(Math.random() * users.length)]._id,
+  }));
+
+  await Entry.insertMany(docs);
   console.log(`✅  Seeded ${seedData.length} entries`);
 
   await mongoose.disconnect();

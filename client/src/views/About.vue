@@ -78,7 +78,7 @@ export default { name: 'About' };
 
 .about-desc {
   font-size: 1rem;
-  color: #777;
+  color: #cfcfcf;
   line-height: 1.7;
   margin: 0;
 }
@@ -109,7 +109,7 @@ export default { name: 'About' };
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #555;
+  color: #c3c3c3;
   margin-bottom: 1rem;
 }
 
@@ -121,7 +121,7 @@ export default { name: 'About' };
 
 .about-list li {
   font-size: 0.875rem;
-  color: #888;
+  color: #d0d0d0;
   padding: 0.4rem 0;
   border-bottom: 1px solid #1e1e1e;
   line-height: 1.5;

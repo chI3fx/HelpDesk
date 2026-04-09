@@ -3,10 +3,10 @@
     <!-- Header -->
     <div class="page-header">
       <div>
-        <h2 class="page-title">All Responses</h2>
-        <p class="page-subtitle">Browse and manage your helpdesk response library</p>
+        <h2 class="page-title">All Entries</h2>
+        <p class="page-subtitle">Browse helpdesk entries and member submissions</p>
       </div>
-      <router-link to="/entries/new" class="btn btn-warning">
+      <router-link v-if="isStaff" to="/entries/new" class="btn btn-warning">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         <span>Add Entry</span>
       </router-link>
@@ -45,7 +45,9 @@
               <th style="width: 25%">Response Key</th>
               <th style="width: 40%">Standard Response</th>
               <th style="width: 15%">Category</th>
-              <th style="width: 20%" class="text-end">Actions</th>
+              <th v-if="isStaff" style="width: 15%">Submitted By</th>
+              <th style="width: 10%">Status</th>
+              <th v-if="isStaff" style="width: 20%" class="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -61,7 +63,18 @@
                   {{ entry.category }}
                 </span>
               </td>
-              <td class="text-end">
+              <td v-if="isStaff">
+                <span class="entry-value">
+                  {{ entry.submittedBy?.name || 'Unknown' }}
+                  <small v-if="entry.submittedBy?.email" class="d-block text-muted">{{ entry.submittedBy.email }}</small>
+                </span>
+              </td>
+              <td>
+                <span class="badge" :class="entry.status === 'resolved' ? 'bg-success text-white' : 'bg-warning text-dark'">
+                  {{ entry.status || 'open' }}
+                </span>
+              </td>
+              <td v-if="isStaff" class="text-end">
                 <div class="action-buttons">
                   <router-link
                     :to="'/entries/' + entry._id"
@@ -77,6 +90,22 @@
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                   </router-link>
+                  <button
+                    v-if="entry.status !== 'resolved'"
+                    class="btn btn-sm btn-outline-success"
+                    @click="setStatus(entry._id, 'resolved')"
+                    title="Mark Resolved"
+                  >
+                    Resolve
+                  </button>
+                  <button
+                    v-if="entry.status === 'resolved'"
+                    class="btn btn-sm btn-outline-warning"
+                    @click="setStatus(entry._id, 'open')"
+                    title="Reopen"
+                  >
+                    Reopen
+                  </button>
                   <button
                     class="btn btn-sm btn-outline-danger"
                     @click="remove(entry._id)"
@@ -101,14 +130,32 @@
             </span>
           </div>
           <p class="entry-card-value">{{ truncate(entry.value, 100) }}</p>
+          <p v-if="isStaff" class="entry-card-value mb-2">
+            <strong>Submitted by:</strong> {{ entry.submittedBy?.name || 'Unknown' }}
+            <span v-if="entry.submittedBy?.email"> ({{ entry.submittedBy.email }})</span>
+          </p>
           <div class="entry-card-actions">
             <router-link :to="'/entries/' + entry._id" class="btn btn-sm btn-outline-secondary">
               View
             </router-link>
-            <router-link :to="'/entries/' + entry._id + '/edit'" class="btn btn-sm btn-outline-primary">
+            <router-link v-if="isStaff" :to="'/entries/' + entry._id + '/edit'" class="btn btn-sm btn-outline-primary">
               Edit
             </router-link>
-            <button class="btn btn-sm btn-outline-danger" @click="remove(entry._id)">
+            <button
+              v-if="isStaff && entry.status !== 'resolved'"
+              class="btn btn-sm btn-outline-success"
+              @click="setStatus(entry._id, 'resolved')"
+            >
+              Resolve
+            </button>
+            <button
+              v-if="isStaff && entry.status === 'resolved'"
+              class="btn btn-sm btn-outline-warning"
+              @click="setStatus(entry._id, 'open')"
+            >
+              Reopen
+            </button>
+            <button v-if="isStaff" class="btn btn-sm btn-outline-danger" @click="remove(entry._id)">
               Delete
             </button>
           </div>
@@ -120,12 +167,16 @@
 
 <script>
 import axios from 'axios';
+import { getCurrentUser } from '../services/auth';
 export default {
   name: 'Entries',
   data() {
-    return { entries: [], search: '', loading: true };
+    return { entries: [], search: '', loading: true, currentUser: getCurrentUser() };
   },
   computed: {
+    isStaff() {
+      return this.currentUser?.role === 'staff';
+    },
     filtered() {
       const q = this.search.toLowerCase();
       return this.entries.filter(
@@ -154,6 +205,11 @@ export default {
       if (!confirm('Delete this entry?')) return;
       await axios.delete(`/api/entries/${id}`);
       this.entries = this.entries.filter((e) => e._id !== id);
+    },
+    async setStatus(id, status) {
+      const res = await axios.patch(`/api/entries/${id}/status`, { status });
+      const idx = this.entries.findIndex((e) => e._id === id);
+      if (idx !== -1) this.entries[idx] = res.data;
     },
   },
   async created() {
@@ -257,7 +313,7 @@ export default {
 }
 
 .loading-state p {
-  color: #666;
+  color: #c5c5c5;
   font-size: 14px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -274,18 +330,18 @@ export default {
 }
 
 .empty-state svg {
-  color: #333;
+  color: #b8b8b8;
   margin-bottom: 1.5rem;
 }
 
 .empty-state h3 {
   font-size: 1.5rem;
-  color: #999;
+  color: #d0d0d0;
   margin-bottom: 0.5rem;
 }
 
 .empty-state p {
-  color: #666;
+  color: #c4c4c4;
   margin: 0;
 }
 
@@ -385,8 +441,7 @@ export default {
 }
 
 .entry-card-value {
-  color: #999;
-  color: #c5c5c5;
+  color: #d1d1d1;
   font-size: 14px;
   line-height: 1.6;
   margin-bottom: 1rem;

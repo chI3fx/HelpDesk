@@ -18,6 +18,23 @@ const entrySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    source: {
+      type: String,
+      enum: ['seed', 'staff', 'member'],
+      default: 'staff',
+      required: true,
+    },
+    submittedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
+    status: {
+      type: String,
+      enum: ['open', 'resolved'],
+      default: 'open',
+      required: true,
+    },
   },
   { timestamps: true }
 );

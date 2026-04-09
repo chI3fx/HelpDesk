@@ -10,22 +10,34 @@
         <span :class="badgeClass(entry.category)" class="badge fs-6">
           {{ entry.category }}
         </span>
+        <span class="badge" :class="entry.status === 'resolved' ? 'bg-success' : 'bg-warning text-dark'">
+          {{ entry.status || 'open' }}
+        </span>
       </div>
 
       <div class="card border-0 shadow-sm p-4 mb-4">
         <p class="mb-0 fs-5 text-secondary">{{ entry.value }}</p>
       </div>
 
+      <p
+        v-if="isStaff && entry.submittedBy"
+        class="mb-2 text-light-emphasis"
+      >
+        Submitted by:
+        <strong>{{ entry.submittedBy.name || 'Unknown' }}</strong>
+        <span v-if="entry.submittedBy.email">({{ entry.submittedBy.email }})</span>
+      </p>
+
       <p class="text-muted small">
         Added: {{ new Date(entry.createdAt).toLocaleString() }}
       </p>
 
       <div class="d-flex gap-2 mt-3">
-        <router-link :to="'/entries/' + entry._id + '/edit'" class="btn btn-primary">
+        <router-link v-if="isStaff" :to="'/entries/' + entry._id + '/edit'" class="btn btn-primary">
           Edit
         </router-link>
         <router-link to="/entries" class="btn btn-outline-secondary">
-          ← Back to list
+          Back to list
         </router-link>
       </div>
     </div>
@@ -36,10 +48,17 @@
 
 <script>
 import axios from 'axios';
+import { getCurrentUser } from '../services/auth';
+
 export default {
   name: 'Show',
   data() {
-    return { entry: null, loading: true };
+    return { entry: null, loading: true, currentUser: getCurrentUser() };
+  },
+  computed: {
+    isStaff() {
+      return this.currentUser?.role === 'staff';
+    },
   },
   methods: {
     badgeClass(category) {

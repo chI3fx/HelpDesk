@@ -1,6 +1,6 @@
 <template>
   <div style="max-width: 520px; margin: 0 auto;">
-    <h2 class="fw-bold mb-4">Sign Up</h2>
+    <h2 class="fw-bold mb-4">Create Member Account</h2>
 
     <div class="card border-0 shadow-sm p-4">
       <form @submit.prevent="submit" novalidate>
@@ -60,7 +60,7 @@
           Create Account
         </button>
 
-        <p class="mt-3 mb-0 text-muted">
+        <p class="mt-3 mb-0 auth-helper">
           Already registered?
           <router-link to="/login" class="text-decoration-none">Sign in</router-link>
         </p>
@@ -109,7 +109,7 @@ export default {
         setAuth(token, user);
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         window.dispatchEvent(new Event('auth-changed'));
-        this.$router.push('/staff');
+        this.$router.push('/');
       } catch (err) {
         this.error = err?.response?.data?.error || 'Signup failed. Please try again.';
       } finally {
@@ -119,3 +119,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.auth-helper {
+  color: #d8d8d8;
+}
+
+.auth-helper a {
+  color: #7fd8ff;
+}
+</style>

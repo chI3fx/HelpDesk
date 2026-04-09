@@ -13,7 +13,7 @@
           </div>
         </router-link>
 
-        <div class="toji-nav__links" v-if="isAuthed">
+        <div class="toji-nav__links" v-if="isAuthed && isStaff">
           <router-link to="/staff" exact-active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             <span class="link-text">Home</span>
@@ -30,7 +30,26 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
             <span class="link-text">Quiz</span>
           </router-link>
-          <router-link to="/staff/about" active-class="toji-nav__link--active" class="toji-nav__link">
+          <router-link to="/about" active-class="toji-nav__link--active" class="toji-nav__link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <span class="link-text">About</span>
+          </router-link>
+          <button class="toji-nav__link toji-nav__button" @click="logout">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span class="link-text">Logout</span>
+          </button>
+        </div>
+
+        <div class="toji-nav__links" v-else-if="isAuthed">
+          <router-link to="/entries" active-class="toji-nav__link--active" class="toji-nav__link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6h3a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            <span class="link-text">Entries</span>
+          </router-link>
+          <router-link to="/" exact-active-class="toji-nav__link--active" class="toji-nav__link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span class="link-text">My Complaint</span>
+          </router-link>
+          <router-link to="/about" active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
             <span class="link-text">About</span>
           </router-link>
@@ -52,6 +71,10 @@
           <router-link to="/signup" active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span class="link-text">Sign Up</span>
+          </router-link>
+          <router-link to="/about" active-class="toji-nav__link--active" class="toji-nav__link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <span class="link-text">About</span>
           </router-link>
         </div>
       </div>
@@ -76,18 +99,20 @@
 
 <script>
 import axios from 'axios';
-import { clearAuth, isAuthenticated } from './services/auth';
+import { clearAuth, getCurrentUser, isAuthenticated } from './services/auth';
 
 export default {
   name: 'App',
   data() {
     return {
       isAuthed: isAuthenticated(),
+      currentUser: getCurrentUser(),
     };
   },
   methods: {
     syncAuthState() {
       this.isAuthed = isAuthenticated();
+      this.currentUser = getCurrentUser();
     },
     logout() {
       clearAuth();
@@ -98,8 +123,11 @@ export default {
     },
   },
   computed: {
+    isStaff() {
+      return this.currentUser?.role === 'staff';
+    },
     brandTo() {
-      return this.isAuthed ? '/staff' : '/';
+      return this.isStaff ? '/staff' : '/';
     },
   },
   mounted() {
@@ -252,7 +280,7 @@ body {
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #666;
+  color: #b7b7b7;
 }
 
 .toji-nav__links {
@@ -269,7 +297,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  color: #666;
+  color: #c2c2c2;
   border-radius: 8px;
   transition: all 0.2s ease;
   position: relative;
@@ -323,7 +351,7 @@ body {
   text-align: center;
   padding: 20px;
   font-size: 12px;
-  color: #444;
+  color: #a8a8a8;
   letter-spacing: 1px;
   text-transform: uppercase;
   background: rgba(10, 10, 15, 0.8);
@@ -360,7 +388,7 @@ body {
 
 .table thead th {
   background: rgba(17, 17, 17, 0.8) !important;
-  color: #666 !important;
+  color: #c8c8c8 !important;
   font-size: 11px !important;
   letter-spacing: 2px !important;
   text-transform: uppercase !important;
@@ -411,17 +439,17 @@ body {
 }
 
 .form-control::placeholder {
-  color: #555 !important;
+  color: #9f9f9f !important;
 }
 
 .form-text {
-  color: #666 !important;
+  color: #bbbbbb !important;
   font-size: 12px !important;
   margin-top: 6px;
 }
 
 .form-label {
-  color: #999 !important;
+  color: #d2d2d2 !important;
   font-size: 13px !important;
   letter-spacing: 0.5px !important;
   font-weight: 600 !important;
@@ -465,7 +493,7 @@ body {
 
 .btn-outline-secondary {
   border-color: rgba(255, 255, 255, 0.1) !important;
-  color: #999 !important;
+  color: #d0d0d0 !important;
   background: transparent !important;
 }
 
@@ -551,7 +579,7 @@ body {
 
 .bg-secondary {
   background: rgba(255, 255, 255, 0.05) !important;
-  color: #999 !important;
+  color: #d2d2d2 !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -612,7 +640,7 @@ body {
 
 /* ── Text Colors ── */
 .text-muted {
-  color: #666 !important;
+  color: #bbbbbb !important;
 }
 
 h1, h2, h3, h4, h5, h6 {

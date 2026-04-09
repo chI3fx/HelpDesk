@@ -120,7 +120,7 @@ export default {
 .title-sub {
   font-size: clamp(1.2rem, 4vw, 1.8rem);
   font-weight: 600;
-  color: #666;
+  color: #c6c6c6;
   letter-spacing: -0.01em;
   animation: slideUp 0.6s ease 0.2s both;
 }
@@ -139,7 +139,7 @@ export default {
 
 .hero-description {
   font-size: 1.1rem;
-  color: #999;
+  color: #d0d0d0;
   line-height: 1.7;
   max-width: 640px;
   animation: fadeIn 0.6s ease 0.3s both;
@@ -234,12 +234,12 @@ export default {
 
 .action-content p {
   font-size: 0.9rem;
-  color: #666;
+  color: #cecece;
   margin: 0;
 }
 
 .action-arrow {
-  color: #444;
+  color: #b9b9b9;
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;

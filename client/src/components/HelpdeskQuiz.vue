@@ -7,7 +7,7 @@
     </div>
 
     <!-- Not enough entries -->
-    <div v-else-if="entries.length < 4" class="alert alert-warning">
+    <div v-else-if="quizEntries.length < 4" class="alert alert-warning">
       You need at least 4 entries in the library to run the quiz.
     </div>
 
@@ -113,6 +113,9 @@ export default {
     };
   },
   computed: {
+    quizEntries() {
+      return this.entries.filter((e) => e.source !== 'member');
+    },
     currentQuestion() {
       return this.questions[this.currentIndex];
     },
@@ -133,10 +136,10 @@ export default {
   },
   methods: {
     buildQuestions() {
-      // Shuffle entries and build one question per entry (up to all entries)
-      const shuffled = [...this.entries].sort(() => Math.random() - 0.5);
+      const quizPool = this.quizEntries;
+      const shuffled = [...quizPool].sort(() => Math.random() - 0.5).slice(0, 6);
       this.questions = shuffled.map((entry) => {
-        const wrongs = this.entries
+        const wrongs = quizPool
           .filter((e) => e._id !== entry._id)
           .sort(() => Math.random() - 0.5)
           .slice(0, 3)
@@ -178,7 +181,7 @@ export default {
     try {
       const res = await axios.get('/api/entries');
       this.entries = res.data;
-      if (this.entries.length >= 4) this.buildQuestions();
+      if (this.quizEntries.length >= 4) this.buildQuestions();
     } catch (err) {
       console.error(err);
     } finally {

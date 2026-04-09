@@ -36,11 +36,10 @@ router.post('/signup', async (req, res) => {
     }
 
     const { salt, hash } = hashPassword(password);
-    const isFirstUser = (await User.countDocuments()) === 0;
     const user = await User.create({
       name,
       email,
-      role: isFirstUser ? 'admin' : 'staff',
+      role: 'member',
       passwordSalt: salt,
       passwordHash: hash,
     });
@@ -70,7 +69,7 @@ router.post('/login', async (req, res) => {
     }
 
     if (!user.role) {
-      user.role = 'staff';
+      user.role = 'member';
       await user.save();
     }
 

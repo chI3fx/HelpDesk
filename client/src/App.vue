@@ -13,7 +13,7 @@
           </div>
         </router-link>
 
-        <div class="toji-nav__links">
+        <div class="toji-nav__links" v-if="isAuthed">
           <router-link to="/" exact-active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             <span class="link-text">Home</span>
@@ -33,6 +33,21 @@
           <router-link to="/about" active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
             <span class="link-text">About</span>
+          </router-link>
+          <button class="toji-nav__link toji-nav__button" @click="logout">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span class="link-text">Logout</span>
+          </button>
+        </div>
+
+        <div class="toji-nav__links" v-else>
+          <router-link to="/login" active-class="toji-nav__link--active" class="toji-nav__link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/><path d="M21 19V5a2 2 0 0 0-2-2h-6"/></svg>
+            <span class="link-text">Login</span>
+          </router-link>
+          <router-link to="/signup" active-class="toji-nav__link--active" class="toji-nav__link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span class="link-text">Sign Up</span>
           </router-link>
         </div>
       </div>
@@ -56,7 +71,37 @@
 </template>
 
 <script>
-export default { name: 'App' };
+import axios from 'axios';
+import { clearAuth, isAuthenticated } from './services/auth';
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      isAuthed: isAuthenticated(),
+    };
+  },
+  methods: {
+    syncAuthState() {
+      this.isAuthed = isAuthenticated();
+    },
+    logout() {
+      clearAuth();
+      delete axios.defaults.headers.common.Authorization;
+      this.syncAuthState();
+      this.$router.push('/login');
+      window.dispatchEvent(new Event('auth-changed'));
+    },
+  },
+  mounted() {
+    window.addEventListener('storage', this.syncAuthState);
+    window.addEventListener('auth-changed', this.syncAuthState);
+  },
+  beforeUnmount() {
+    window.removeEventListener('storage', this.syncAuthState);
+    window.removeEventListener('auth-changed', this.syncAuthState);
+  },
+};
 </script>
 
 <style>
@@ -245,6 +290,12 @@ body {
   color: #39ff6a !important;
   background: rgba(57, 255, 106, 0.1) !important;
   box-shadow: 0 0 0 1px rgba(57, 255, 106, 0.2);
+}
+
+.toji-nav__button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 /* ── Main ── */

@@ -1,6 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config();
+
+const requireAuth = require('./middleware/requireAuth');
+const authRouter = require('./routes/auth');
+const entriesRouter = require('./routes/entries');
 
 const app = express();
 const PORT = 3000;
@@ -14,8 +19,8 @@ mongoose
   .then(() => console.log('✅  MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-const entriesRouter = require('./routes/entries');
-app.use('/api/entries', entriesRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/entries', requireAuth, entriesRouter);
 
 app.listen(PORT, () => {
   console.log(`🚀  Server running on http://localhost:${PORT}`);

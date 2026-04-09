@@ -3,7 +3,7 @@
     <!-- ── Navbar ── -->
     <nav class="toji-nav">
       <div class="toji-nav__inner">
-        <router-link class="toji-nav__brand" to="/">
+        <router-link class="toji-nav__brand" :to="brandTo">
           <div class="brand-icon">
             <span>TL</span>
           </div>
@@ -14,23 +14,23 @@
         </router-link>
 
         <div class="toji-nav__links" v-if="isAuthed">
-          <router-link to="/" exact-active-class="toji-nav__link--active" class="toji-nav__link">
+          <router-link to="/staff" exact-active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             <span class="link-text">Home</span>
           </router-link>
-          <router-link to="/entries" active-class="toji-nav__link--active" class="toji-nav__link">
+          <router-link to="/staff/entries" active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6h3a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
             <span class="link-text">Entries</span>
           </router-link>
-          <router-link to="/entries/new" active-class="toji-nav__link--active" class="toji-nav__link">
+          <router-link to="/staff/entries/new" active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <span class="link-text">New</span>
           </router-link>
-          <router-link to="/test" active-class="toji-nav__link--active" class="toji-nav__link">
+          <router-link to="/staff/quiz" active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
             <span class="link-text">Quiz</span>
           </router-link>
-          <router-link to="/about" active-class="toji-nav__link--active" class="toji-nav__link">
+          <router-link to="/staff/about" active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
             <span class="link-text">About</span>
           </router-link>
@@ -41,6 +41,10 @@
         </div>
 
         <div class="toji-nav__links" v-else>
+          <router-link to="/" exact-active-class="toji-nav__link--active" class="toji-nav__link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6h3a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            <span class="link-text">Lookup</span>
+          </router-link>
           <router-link to="/login" active-class="toji-nav__link--active" class="toji-nav__link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/><path d="M21 19V5a2 2 0 0 0-2-2h-6"/></svg>
             <span class="link-text">Login</span>
@@ -89,8 +93,13 @@ export default {
       clearAuth();
       delete axios.defaults.headers.common.Authorization;
       this.syncAuthState();
-      this.$router.push('/login');
+      this.$router.push('/');
       window.dispatchEvent(new Event('auth-changed'));
+    },
+  },
+  computed: {
+    brandTo() {
+      return this.isAuthed ? '/staff' : '/';
     },
   },
   mounted() {

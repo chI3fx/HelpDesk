@@ -71,7 +71,7 @@ export default {
         setAuth(token, user);
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         window.dispatchEvent(new Event('auth-changed'));
-        const redirect = this.$route.query.redirect || '/';
+        const redirect = this.$route.query.redirect || '/staff';
         this.$router.push(redirect);
       } catch (err) {
         this.error = err?.response?.data?.error || 'Login failed. Please try again.';

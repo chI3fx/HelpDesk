@@ -13,6 +13,7 @@ function sanitizeUser(user) {
     id: user._id,
     name: user.name,
     email: user.email,
+    role: user.role,
   };
 }
 
@@ -35,9 +36,11 @@ router.post('/signup', async (req, res) => {
     }
 
     const { salt, hash } = hashPassword(password);
+    const isFirstUser = (await User.countDocuments()) === 0;
     const user = await User.create({
       name,
       email,
+      role: isFirstUser ? 'admin' : 'staff',
       passwordSalt: salt,
       passwordHash: hash,
     });
@@ -64,6 +67,11 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    if (!user.role) {
+      user.role = 'staff';
+      await user.save();
     }
 
     const valid = verifyPassword(password, user.passwordSalt, user.passwordHash);

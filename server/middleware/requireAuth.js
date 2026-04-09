@@ -16,7 +16,7 @@ module.exports = async function requireAuth(req, res, next) {
       return res.status(401).json({ error: 'Invalid or expired token' });
     }
 
-    const user = await User.findById(payload.sub).select('_id name email');
+    const user = await User.findById(payload.sub).select('_id name email role');
     if (!user) {
       return res.status(401).json({ error: 'Invalid session' });
     }

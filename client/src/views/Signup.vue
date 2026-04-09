@@ -109,7 +109,7 @@ export default {
         setAuth(token, user);
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         window.dispatchEvent(new Event('auth-changed'));
-        this.$router.push('/');
+        this.$router.push('/staff');
       } catch (err) {
         this.error = err?.response?.data?.error || 'Signup failed. Please try again.';
       } finally {

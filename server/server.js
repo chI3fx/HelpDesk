@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const requireAuth = require('./middleware/requireAuth');
 const authRouter = require('./routes/auth');
+const publicRouter = require('./routes/public');
 const entriesRouter = require('./routes/entries');
 
 const app = express();
@@ -20,6 +21,7 @@ mongoose
   .catch((err) => console.error('MongoDB connection error:', err));
 
 app.use('/api/auth', authRouter);
+app.use('/api/public', publicRouter);
 app.use('/api/entries', requireAuth, entriesRouter);
 
 app.listen(PORT, () => {

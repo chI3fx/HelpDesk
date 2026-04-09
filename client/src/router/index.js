@@ -9,16 +9,19 @@ import Test from '../views/Test.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
+import PublicLookup from '../views/PublicLookup.vue'
 import { isAuthenticated } from '../services/auth'
 
 const routes = [
-  { path: '/', component: Home, meta: { requiresAuth: true } },
-  { path: '/entries', component: Entries, meta: { requiresAuth: true } },
-  { path: '/entries/new', component: New, meta: { requiresAuth: true } },
-  { path: '/entries/:id', component: Show, meta: { requiresAuth: true } },
-  { path: '/entries/:id/edit', component: Edit, meta: { requiresAuth: true } },
-  { path: '/test', component: Test, meta: { requiresAuth: true } },
-  { path: '/about', component: About, meta: { requiresAuth: true } },
+  { path: '/', component: PublicLookup },
+  { path: '/lookup', component: PublicLookup },
+  { path: '/staff', component: Home, meta: { requiresAuth: true }, alias: ['/home'] },
+  { path: '/staff/entries', component: Entries, meta: { requiresAuth: true }, alias: ['/entries'] },
+  { path: '/staff/entries/new', component: New, meta: { requiresAuth: true }, alias: ['/entries/new'] },
+  { path: '/staff/entries/:id', component: Show, meta: { requiresAuth: true }, alias: ['/entries/:id'] },
+  { path: '/staff/entries/:id/edit', component: Edit, meta: { requiresAuth: true }, alias: ['/entries/:id/edit'] },
+  { path: '/staff/quiz', component: Test, meta: { requiresAuth: true }, alias: ['/test'] },
+  { path: '/staff/about', component: About, meta: { requiresAuth: true }, alias: ['/about'] },
   { path: '/login', component: Login, meta: { publicOnly: true } },
   { path: '/signup', component: Signup, meta: { publicOnly: true } },
 ]
@@ -36,7 +39,7 @@ router.beforeEach((to) => {
   }
 
   if (to.meta.publicOnly && authed) {
-    return { path: '/' }
+    return { path: '/staff' }
   }
 
   return true
